@@ -1,0 +1,15 @@
+.tabs-inner {
+  position: relative;
+}
+
+.tab {
+  transition: opacity 0.3s ease;
+
+  &:not(.js--active) {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
