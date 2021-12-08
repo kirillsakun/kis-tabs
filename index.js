@@ -7,27 +7,27 @@ class Tabs {
     navSelector,
     activeClass = 'js--active',
     eventType = 'click',
-    current = 0,
-    underlined = false,
-    underlineClass = 'tabs__underline',
+    initialTabIndex = 0,
+    hasMovingBackground = false,
+    movingBackgroundClass = 'tabs__background',
   }) {
     this.tabs = document.querySelectorAll(tabSelector);
     this.btns = document.querySelectorAll(btnSelector);
     this.nav = navSelector || this.btns[0]?.parentNode;
     this.activeClass = activeClass;
     this.eventType = eventType;
-    this.current = current;
+    this.currentTabIndex = initialTabIndex;
     this.prev = [];
-    this.underline = undefined;
-    this.underlined = underlined;
-    this.underlineClass = underlineClass;
+    this.movingBackground = undefined;
+    this.hasMovingBackground = hasMovingBackground;
+    this.movingBackgroundClass = movingBackgroundClass;
   }
 
   init() {
     this.initBtns();
     this.initUnderline();
 
-    this.goTo(this.current);
+    this.goTo(this.currentTabIndex);
     return this;
   }
 
@@ -35,10 +35,10 @@ class Tabs {
     if (this.prev.length && this.prev[this.prev.length - 1] === i) {
       this.prev.pop();
     } else {
-      this.prev.push(this.current);
+      this.prev.push(this.currentTabIndex);
     }
 
-    this.current = i;
+    this.currentTabIndex = i;
 
     this.tabs.forEach((tab) => {
       tab.classList.remove(this.activeClass);
@@ -52,16 +52,17 @@ class Tabs {
       this.btns[i].classList.add(this.activeClass);
     }
 
-    if (this.underlined) {
-      this.underline.style.left = `${this.btns[i].offsetLeft}px`;
-      this.underline.style.width = `${this.btns[i].offsetWidth}px`;
+    if (this.hasMovingBackground) {
+      this.movingBackground.style.left = `${this.btns[i].offsetLeft}px`;
+      this.movingBackground.style.top = `${this.btns[i].offsetTop}px`;
+      this.movingBackground.style.width = `${this.btns[i].offsetWidth}px`;
     }
 
     return this.tabs[i];
   }
 
   goToNext() {
-    return this.goTo(this.current + 1);
+    return this.goTo(this.currentTabIndex + 1);
   }
 
   goToPrev() {
@@ -79,16 +80,16 @@ class Tabs {
   }
 
   initUnderline() {
-    if (!this.underlined) { return; }
-    let underline = this.nav.querySelector(`.${this.underlineClass}`);
+    if (!this.hasMovingBackground) { return; }
+    let movingBackground = this.nav.querySelector(`.${this.movingBackgroundClass}`);
 
-    if (!underline) {
-      underline = document.createElement('span');
-      underline.classList.add(this.underlineClass);
-      this.nav.append(underline);
+    if (!movingBackground) {
+      movingBackground = document.createElement('span');
+      movingBackground.classList.add(this.movingBackgroundClass);
+      this.nav.append(movingBackground);
     }
 
-    this.underline = underline;
+    this.movingBackground = movingBackground;
   }
 }
 

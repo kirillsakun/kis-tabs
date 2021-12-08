@@ -1,7 +1,20 @@
-.tabs-inner {
-  position: relative;
+.tabs {
+  &-inner {
+    position: relative;
+  }
+  &__nav {
+    position: relative;
+    z-index: -1;
+  }
+  &__background {
+    position: absolute;
+    z-index: -1;
+    width: 20px;
+    height: 100%;
+    background-color: #cccccc;
+    transition: width .4s,left .4s;
+  }
 }
-
 .tab {
   transition: opacity 0.3s ease;
 
