@@ -7,32 +7,34 @@ class Tabs {
     navSelector,
     activeClass = 'js--active',
     eventType = 'click',
-    initialTabIndex = 0,
+    initialTab = 0,
     hasMovingBackground = false,
     movingBackgroundClass = 'tabs__background',
-    // useSearchParams = false,
-    // name = 'tab',
-    // tabNameAttribute = 'data-tab-name',
+    searchParameterName,
+    tabNameAttribute = 'data-tab-name',
   }) {
     this.tabs = document.querySelectorAll(tabSelector);
+    this.tabsNames = new Array(this.tabs.length);
     this.btns = document.querySelectorAll(btnSelector);
     this.nav = navSelector || this.btns[0]?.parentNode;
     this.activeClass = activeClass;
     this.eventType = eventType;
-    this.currentTabIndex = initialTabIndex;
+    this.initialTab = initialTab;
+    this.currentTabIndex = 0;
     this.prev = [];
     this.movingBackground = undefined;
     this.hasMovingBackground = hasMovingBackground;
     this.movingBackgroundClass = movingBackgroundClass;
-    // this.useSearchParams = useSearchParams;
-    // this.name = name;
-    // this.tabNameAttribute = tabNameAttribute;
+    this.searchParameterName = searchParameterName;
+    this.tabNameAttribute = tabNameAttribute;
   }
 
   init() {
     this.initBtns();
     this.initUnderline();
-    // this.initSearchParamsLogic();
+    this.initSearchParamsLogic();
+    this.setInitTabIndex();
+
 
     this.goTo(this.currentTabIndex);
     return this;
@@ -47,11 +49,13 @@ class Tabs {
 
     this.currentTabIndex = i;
 
+    // set active class to current tab
     this.tabs.forEach((tab) => {
       tab.classList.remove(this.activeClass);
     });
     this.tabs[i].classList.add(this.activeClass);
 
+    // set active class to current button
     if (this.btns.length) {
       this.btns.forEach((btn) => {
         btn.classList.remove(this.activeClass);
@@ -59,11 +63,20 @@ class Tabs {
       this.btns[i].classList.add(this.activeClass);
     }
 
+    // set background position
     if (this.hasMovingBackground) {
       this.movingBackground.style.left = `${this.btns[i].offsetLeft}px`;
       this.movingBackground.style.top = `${this.btns[i].offsetTop}px`;
       this.movingBackground.style.width = `${this.btns[i].offsetWidth}px`;
       this.movingBackground.style.height = `${this.btns[i].offsetHeight}px`;
+    }
+
+    // set url parameter
+    if (this.searchParameterName) {
+      const url = new URL(window.location);
+      url.searchParams.set(this.searchParameterName, this.tabsNames[i]);
+      // eslint-disable-next-line no-restricted-globals
+      history.replaceState(null, null, url.toString());
     }
 
     return this.tabs[i];
@@ -98,6 +111,23 @@ class Tabs {
     }
 
     this.movingBackground = movingBackground;
+  }
+
+  initSearchParamsLogic() {
+    if (!this.searchParameterName) { return; }
+
+    for (let i = 0; i < this.tabs.length; i += 1) {
+      this.tabsNames[i] = this.tabs[i].getAttribute(this.tabNameAttribute) || `${i}`;
+    }
+  }
+
+  setInitTabIndex() {
+    if (typeof this.initialTab === 'number') {
+      this.currentTabIndex = this.initialTab;
+    } else {
+      this.currentTabIndex = this.tabsNames.indexOf(this.initialTab);
+    }
+    return this.currentTabIndex;
   }
 }
 
