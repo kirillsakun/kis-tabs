@@ -10,6 +10,9 @@ class Tabs {
     initialTabIndex = 0,
     hasMovingBackground = false,
     movingBackgroundClass = 'tabs__background',
+    // useSearchParams = false,
+    // name = 'tab',
+    // tabNameAttribute = 'data-tab-name',
   }) {
     this.tabs = document.querySelectorAll(tabSelector);
     this.btns = document.querySelectorAll(btnSelector);
@@ -21,11 +24,15 @@ class Tabs {
     this.movingBackground = undefined;
     this.hasMovingBackground = hasMovingBackground;
     this.movingBackgroundClass = movingBackgroundClass;
+    // this.useSearchParams = useSearchParams;
+    // this.name = name;
+    // this.tabNameAttribute = tabNameAttribute;
   }
 
   init() {
     this.initBtns();
     this.initUnderline();
+    // this.initSearchParamsLogic();
 
     this.goTo(this.currentTabIndex);
     return this;
@@ -56,6 +63,7 @@ class Tabs {
       this.movingBackground.style.left = `${this.btns[i].offsetLeft}px`;
       this.movingBackground.style.top = `${this.btns[i].offsetTop}px`;
       this.movingBackground.style.width = `${this.btns[i].offsetWidth}px`;
+      this.movingBackground.style.height = `${this.btns[i].offsetHeight}px`;
     }
 
     return this.tabs[i];
