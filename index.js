@@ -40,46 +40,48 @@ class Tabs {
     return this;
   }
 
-  goTo(i) {
-    if (this.prev.length && this.prev[this.prev.length - 1] === i) {
+  goTo(_id) {
+    const id = typeof _id === 'string' ? this.tabsNames.indexOf(_id) : _id;
+
+    if (this.prev.length && this.prev[this.prev.length - 1] === id) {
       this.prev.pop();
     } else {
       this.prev.push(this.currentTabIndex);
     }
 
-    this.currentTabIndex = i;
+    this.currentTabIndex = id;
 
     // set active class to current tab
     this.tabs.forEach((tab) => {
       tab.classList.remove(this.activeClass);
     });
-    this.tabs[i].classList.add(this.activeClass);
+    this.tabs[id].classList.add(this.activeClass);
 
     // set active class to current button
     if (this.btns.length) {
       this.btns.forEach((btn) => {
         btn.classList.remove(this.activeClass);
       });
-      this.btns[i].classList.add(this.activeClass);
+      this.btns[id].classList.add(this.activeClass);
     }
 
     // set background position
     if (this.hasMovingBackground) {
-      this.movingBackground.style.left = `${this.btns[i].offsetLeft}px`;
-      this.movingBackground.style.top = `${this.btns[i].offsetTop}px`;
-      this.movingBackground.style.width = `${this.btns[i].offsetWidth}px`;
-      this.movingBackground.style.height = `${this.btns[i].offsetHeight}px`;
+      this.movingBackground.style.left = `${this.btns[id].offsetLeft}px`;
+      this.movingBackground.style.top = `${this.btns[id].offsetTop}px`;
+      this.movingBackground.style.width = `${this.btns[id].offsetWidth}px`;
+      this.movingBackground.style.height = `${this.btns[id].offsetHeight}px`;
     }
 
     // set url parameter
     if (this.searchParameterName) {
       const url = new URL(window.location);
-      url.searchParams.set(this.searchParameterName, this.tabsNames[i]);
+      url.searchParams.set(this.searchParameterName, this.tabsNames[id]);
       // eslint-disable-next-line no-restricted-globals
       history.replaceState(null, null, url.toString());
     }
 
-    return this.tabs[i];
+    return this.tabs[id];
   }
 
   goToNext() {
