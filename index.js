@@ -16,7 +16,7 @@ class Tabs {
     this.tabs = document.querySelectorAll(tabSelector);
     this.tabsNames = new Array(this.tabs.length);
     this.btns = document.querySelectorAll(btnSelector);
-    this.nav = navSelector || this.btns[0]?.parentNode;
+    this.nav = document.querySelector(navSelector) || this.btns[0]?.parentNode;
     this.activeClass = activeClass;
     this.eventType = eventType;
     this.initialTab = initialTab;
@@ -34,7 +34,6 @@ class Tabs {
     this.initUnderline();
     this.initSearchParamsLogic();
     this.setInitTabIndex();
-
 
     this.goTo(this.currentTabIndex);
     return this;
@@ -134,3 +133,5 @@ class Tabs {
 }
 
 export default Tabs;
+
+
