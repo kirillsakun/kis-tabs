@@ -72,12 +72,12 @@ tabs.init();
 
 ### Methods
 
-| Name         | Return                 | Arguments                   | Description                                                                                       |
-|--------------|------------------------|-----------------------------|---------------------------------------------------------------------------------------------------|
-| `init()`     | Tabs instance          | -                           | Initialize all listeners.                                                                         |
-| `goTo(id)`   | Active tab HTMLElement | `_id`: `number` or `string` | If typeof `id` === `'string'` makes tab with name `id` active. Else makes tab number `id` active. |
-| `goToNext()` | Active tab HTMLElement | -                           | Makes next tab active.                                                                            |
-| `goToPrev()` | Active tab HTMLElement | -                           | Makes previous tab active.                                                                        |
+| Name         | Return                 | Arguments                  | Description                                                                                       |
+|--------------|------------------------|----------------------------|---------------------------------------------------------------------------------------------------|
+| `init()`     | Tabs instance          | -                          | Initialize all listeners.                                                                         |
+| `goTo(id)`   | Active tab HTMLElement | `id`: `number` or `string` | If typeof `id` === `'string'` makes tab with name `id` active. Else makes tab number `id` active. |
+| `goToNext()` | Active tab HTMLElement | -                          | Makes next tab active.                                                                            |
+| `goToPrev()` | Active tab HTMLElement | -                          | Makes previous tab active.                                                                        |
 
 ## License
 
