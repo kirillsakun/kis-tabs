@@ -1,6 +1,6 @@
 {
   "name": "kis-tabs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easy to use pure js tabs module",
   "main": "index.js",
   "scripts": {
